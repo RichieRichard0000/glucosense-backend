@@ -7,14 +7,18 @@ const { InfluxDB } = require('@influxdata/influxdb-client');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware
+// Middleware - OPTION 3: LOCALHOST FOCUSED CORS CONFIGURATION
 app.use(cors({
   origin: [
-    'http://localhost:3000',
-    'https://*.vercel.app',
+    'http://localhost:3000',    // Create React App default
+    'http://localhost:5173',    // Your Vite dev server
+    'http://127.0.0.1:5173',    // Alternative localhost format
+    'https://*.vercel.app',     // All Vercel deployments (wildcard)
     process.env.FRONTEND_URL
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
